@@ -1,42 +1,35 @@
 import Game from "./models/game.mjs";
 
-  function saveGame(game) {
-    const key = "game_" + game.title.replaceAll(" ", "");
+const games = [];
+
+function saveGame(game) {
+    const key = `game_${game.title}`;
     localStorage.setItem(key, JSON.stringify(game));
   }
 
-  function getAllGames() {
+  function loadGames() {
     const games = [];
-
     for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-
-        if (key.startsWith("game_")) {
-            const gameText = localStorage.getItem(key);
-            const gameData = JSON.parse(gameText);
-            const game = new Game(gameData);
-            games.push(game);
-        }
+      const key = localStorage.key(i);
+      if (key.startsWith("game_")) {
+        const raw = JSON.parse(localStorage.getItem(key));
+        games.push(new Game(raw));
+      }
     }
-
     return games;
   }
 
-  function exportGameAsJSON() {
-    const games = getAllGames();
-    return JSON.stringify(games, null, 2);
-  }
-
-  function importGamesFromJSON(jsonString) {
-    const gameList =  JSON.parse(jsonString);
-
-    gameList.forEach(data => {
-        const game =  new Game(data);
-        saveGame(game);
+  function importGamesFromJSON(json) {
+    const importedGames = JSON.parse(json);
+    importedGames.forEach(data => {
+      const game = new Game(data);
+      saveGame(game);
+      games.push(game);
     });
+    console.log("Games in localStorage:", games);
   }
 
-  // Test
+// Test
 
 const testGame = new Game({
     title: "Test Game",
@@ -55,26 +48,17 @@ const testGame = new Game({
   saveGame(testGame); 
   console.log("Games in localStorage:", getAllGames()); 
 
-  document.getElementById(`fileInput`).addEventListener(`change`, (event) => {
+  document.getElementById("importSource").addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
+  
     const reader = new FileReader();
-    reader.onload = function (e) {
-        try {
-            const games = JSON.parse(e.target.result);
-            if (Array.isArray(games)) {
-                games.forEach((game, index) => {
-                    const key = `game_${index}`;
-                    saveGame(key, game);
-                });
-                console.log('Games imported successfully!');
-            } else {
-                console.error('Invalid JSON format. Expected an array of games.');
-            }
-        } catch (err) {
-            console.error('Error parsing JSON:', err);
-        }
+    reader.onload = (e) => {
+      try {
+        importGamesFromJSON(e.target.result);
+      } catch (err) {
+        console.error("Invalid JSON file", err);
+      }
     };
     reader.readAsText(file);
   });
