@@ -1,3 +1,5 @@
+import Game from "./models/game.mjs";
+
 const testGame = new Game({
     title: "Test Game",
     designer: "Tester",
@@ -39,4 +41,13 @@ const testGame = new Game({
   function exportGameAsJSON() {
     const games = getAllGames();
     return JSON.stringify(games, null, 2);
+  }
+
+  function importGamesFromJSON(jsonString) {
+    const gameList =  JSON.parse(jsonString);
+
+    gameList.forEach(data => {
+        const game =  new Game(data);
+        saveGame(game);
+    });
   }
