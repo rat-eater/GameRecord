@@ -13,3 +13,8 @@ const testGame = new Game({
   });
   
   console.log("Test game:", testGame);  
+
+  function saveGame(game) {
+    const key = "game_" + game.title.replaceAll(" ", "");
+    localStorage.setItem(key, JSON.stringify(game));
+  }
