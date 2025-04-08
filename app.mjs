@@ -1,17 +1,15 @@
-import Game from './models/game.mjs';
-
-const exampleGame = new Game({
-    title: "Ticket to Ride",
-    designer: "Alan R. Moon",
-    artist: "Julien Delval, Cyrille Daujean",
-    publisher: "Days of Wonder",
-    year: 2004,
-    players: "2–5",
-    time: "30–60 mins",
-    difficulty: "Light",
-    url: "https://boardgamegeek.com/boardgame/9209/ticket-ride",
-    playCount: 423,
-    personalRating: 6
+const testGame = new Game({
+    title: "Test Game",
+    designer: "Tester",
+    artist: "Art Tester",
+    publisher: "Test Inc.",
+    year: 2025,
+    players: "2-4",
+    time: "45 mins",
+    difficulty: "Easy",
+    url: "http://example.com/testgame",
+    playCount: 1,
+    personalRating: 5
   });
-
-  console.log(exampleGame);
+  
+  console.log("Test game:", testGame);  
