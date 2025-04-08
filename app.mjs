@@ -35,3 +35,8 @@ const testGame = new Game({
 
     return games;
   }
+
+  function exportGameAsJSON() {
+    const games = getAllGames();
+    return JSON.stringify(games, null, 2);
+  }
