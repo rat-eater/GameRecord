@@ -54,4 +54,29 @@ const testGame = new Game({
   
   saveGame(testGame); 
   console.log("Games in localStorage:", getAllGames()); 
+
+  document.getElementById(`fileInput`).addEventListener(`change`, (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const games = JSON.parse(e.target.result);
+            if (Array.isArray(games)) {
+                games.forEach((game, index) => {
+                    const key = `game_${index}`;
+                    saveGame(key, game);
+                });
+                console.log('Games imported successfully!');
+            } else {
+                console.error('Invalid JSON format. Expected an array of games.');
+            }
+        } catch (err) {
+            console.error('Error parsing JSON:', err);
+        }
+    };
+    reader.readAsText(file);
+  });
+
   
