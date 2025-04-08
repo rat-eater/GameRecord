@@ -29,25 +29,6 @@ function saveGame(game) {
     console.log("Games in localStorage:", games);
   }
 
-// Test
-
-const testGame = new Game({
-    title: "Test Game",
-    designer: "Tester",
-    artist: "Art Tester",
-    publisher: "Test Inc.",
-    year: 2025,
-    players: "2–4",
-    time: "45 mins",
-    difficulty: "Easy",
-    url: "http://example.com/testgame",
-    playCount: 1,
-    personalRating: 5
-  });
-  
-  saveGame(testGame); 
-  console.log("Games in localStorage:", getAllGames()); 
-
   document.getElementById("importSource").addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -62,5 +43,7 @@ const testGame = new Game({
     };
     reader.readAsText(file);
   });
+
+  
 
   
