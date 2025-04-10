@@ -21,3 +21,4 @@ Step 4 - done. For this tep i used FileReader to import the example file. I upda
 
 Step 5 - done. I created  <div> in the index file to hold game info. In app.mjs, i created a function that can load all saved games and loop through them. What's more it creates a block of HTML for each one and then adds it to the page. It displays the data successfully when using inspect and then going to console. 
 
+Step 6 - not done. The goal of this step is to make the slider change the game's personal rating and make a button that can increase the play count. I plan on giving each slider and button an attribute to help track which game its for. For that to work I also need to add event listeners to each. When the sliders and buttons are interacted with, my code needs to update the correct game in localStorage. 
