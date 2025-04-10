@@ -33,10 +33,13 @@ function saveGame(game) {
   document.getElementById("importSource").addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    console.log("File selected:", file.name);
   
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
+        console.log("Reading file...");
         importGamesFromJSON(e.target.result);
       } catch (err) {
         console.error("Invalid JSON file", err);
