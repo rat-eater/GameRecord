@@ -44,6 +44,9 @@ function saveGame(game) {
     reader.readAsText(file);
   });
 
+  console.log("Games in localStorage:", loadGames());
+
+  
   
 
   
