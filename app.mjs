@@ -46,7 +46,35 @@ function saveGame(game) {
 
   console.log("Games in localStorage:", loadGames());
 
+  function displayGames() {
+    const container = document.getElementById("gameList");
+    container.innerHTML = "";
+
+    const games = getAllGames();
+    games.forEach(game => {
+      const gameDiv = document.createElement("div");
+      gameDiv.className = "game";
+
+      gameDiv.innerHTML = `
+        <h3>${game.title}</h3>
+        <p><strong>Designer:</strong> ${game.designer}</p>
+        <p><strong>Artist:</strong> ${game.artist}</p>
+        <p><strong>Publisher:</strong> ${game.publisher}</p>
+        <p><strong>Players:</strong> ${game.players}</p>
+        <p><strong>Time:</strong> ${game.time}</p>
+        <p><strong>Difficulty:</strong> ${game.difficulty}</p>
+        <p><strong>Year:</strong> ${game.year}</p>
+        <p><strong>Play Count:</strong> ${game.playCount}</p>
+        <p><strong>Rating:</strong> ${game.personalRating}/10</p>
   
+        <input type="range" min="0" max="10" value="${game.personalRating}" disabled />
+        <button disabled>+1 Play</button>
+      `;
+  
+      container.appendChild(gameDiv);
+    });
+  }
+
   
 
   
