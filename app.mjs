@@ -81,6 +81,11 @@ function saveGame(game) {
 
   displayGames();
 
+  window.addEventListener("DOMContentLoaded", () => {
+    displayGames();
+  });
+  
+
   
 
   
