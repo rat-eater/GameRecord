@@ -27,6 +27,7 @@ function saveGame(game) {
       games.push(game);
     });
     console.log("Games in localStorage:", games);
+    displayGames();
   }
 
   document.getElementById("importSource").addEventListener("change", (event) => {
@@ -74,6 +75,8 @@ function saveGame(game) {
       container.appendChild(gameDiv);
     });
   }
+
+  displayGames();
 
   
 
