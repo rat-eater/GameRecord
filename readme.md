@@ -23,4 +23,6 @@ Step 5 - done. I created  <div> in the index file to hold game info. In app.mjs,
 
 Step 6 - done. The goal of this step is to make the slider change the game's personal rating and make a button that can increase the play count. I plan on giving each slider and button an attribute to help track which game its for. For that to work I also need to add event listeners to each. When the sliders and buttons are interacted with, my code needs to update the correct game in localStorage. I had to rewrite my code since games were not showing up, but the sliders and button were. 
 
-Step 7 - not done.
+Step 7 and 8 - done. The goal of these steps is to add an HTML form for users to add new games directly to the list without having to upload a file. I will be adding the form inside my index.html file, break it down in app.mjs and clean it afterwards. Following the initial structure of the example file provided in the assignment, I created a form that instantly displays the data needed as soon as its typed in. It also works with the slider and button that I added previously.
+
+Step 9 - not done. 

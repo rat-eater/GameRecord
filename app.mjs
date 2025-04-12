@@ -1,7 +1,9 @@
 import Game from "./models/game.mjs";
+const val = (id) => document.getElementById(id).value.trim();
 
 let games = [];
 
+// Basic functions
 function saveGame(game) {
   const key = `game_${game.title}`;
   localStorage.setItem(key, JSON.stringify(game));
@@ -9,11 +11,19 @@ function saveGame(game) {
 
 function loadGames() {
   games = [];
+
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
+
     if (key.startsWith("game_")) {
-      const raw = JSON.parse(localStorage.getItem(key));
-      games.push(new Game(raw));
+      try {
+        const raw = JSON.parse(localStorage.getItem(key));
+        if (raw && raw.title) {
+          games.push(new Game(raw));
+        }
+      } catch (error) {
+        console.error(`Error at key "${key}":`, error);
+      }
     }
   }
 }
@@ -30,6 +40,10 @@ function importGamesFromJSON(json) {
   const importedGames = JSON.parse(json);
   importedGames.forEach(data => {
     const game = new Game(data);
+    if (!Array.isArray(importedGames)) {
+      console.warn("JSON file did not contain an array of games.");
+      return;
+    }
     saveGame(game);
   });
 
@@ -41,14 +55,18 @@ document.getElementById("importSource").addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
+  console.log(`Loading file: "${file.name}"`);
+
   const reader = new FileReader();
+
   reader.onload = (e) => {
     try {
       importGamesFromJSON(e.target.result);
     } catch (err) {
-      console.error("Invalid JSON file", err);
+      console.error("Invalid JSON.", err);
     }
   };
+
   reader.readAsText(file);
 });
 
@@ -79,6 +97,8 @@ function displayGames() {
   setupInteractivity(); 
 }
 
+//Interactivity (slider and button)
+
 function setupInteractivity() {
   document.querySelectorAll('.rating-slider').forEach(slider => {
     slider.addEventListener('input', (event) => {
@@ -106,11 +126,32 @@ function setupInteractivity() {
   });
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  loadGames();      
-  displayGames();   
+document.getElementById("newGameForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  
+  const game = new Game({
+    title: val("title"),
+    designer: val("designer"),
+    artist: val("artist"),
+    publisher: val("publisher"),
+    year: parseInt(val("year")) || null,
+    players: val("players"),
+    time: val("time"),
+    difficulty: val("difficulty"),
+    url: val("url"),
+    playCount: parseInt(val("playCount")) || 0,
+    personalRating: parseInt(val("personalRating")) || 0,
+  });
+
+  saveGame(game);
+  loadGames();
+  displayGames();
+
+  event.target.reset();
+
 });
 
-  
-
-  
+window.addEventListener("DOMContentLoaded", () => {
+  loadGames();
+  displayGames();
+});

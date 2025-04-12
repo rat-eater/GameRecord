@@ -7,13 +7,26 @@
       </head>
       <body>
         <h1>Game Record</h1>  
-
         <p>Import a JSON file of games:</p>
         <input type="file" id="importSource" accept=".json">
         <h2>My Game List</h2>
 <div id="gameList"></div>
 
-
+<h2>Add a New Game</h2>
+<form id = "newGameForm">
+  <input type = "text" id = "title" placeholder = "Title" required>
+  <input type = "text" id="designer" placeholder="Designer" />
+  <input type = "text" id="artist" placeholder="Artist" />
+  <input type = "text" id="publisher" placeholder="Publisher" />
+  <input type = "text" id="year" placeholder="Year" />
+  <input type = "text" id="players" placeholder="Players (e.g., 2–5)" />
+  <input type = "text" id="time" placeholder="Play Time (e.g., 30–60 mins)" />
+  <input type = "text" id="difficulty" placeholder="Difficulty" />
+  <input type = "text" id="url" placeholder="BoardGameGeek URL" />
+  <input type = "text" id="playCount" placeholder="Play Count" value="0" />
+  <input type = "text" id="personalRating" placeholder="Personal Rating (0–10)" value="0" min="0" max="10" />
+  <button type="submit">Add Game</button>
+</form>
 
   <script type="module" src="app.mjs"></script>
 </body>
