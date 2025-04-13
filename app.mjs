@@ -1,6 +1,6 @@
 import Game from "./models/game.mjs";
-const val = (id) => document.getElementById(id).value.trim();
 
+const get = (id) => document.getElementById(id).value.trim();
 let games = [];
 
 // Basic functions
@@ -38,12 +38,14 @@ function getGameByTitle(title) {
 
 function importGamesFromJSON(json) {
   const importedGames = JSON.parse(json);
+
+  if (!Array.isArray(importedGames)) {
+    console.warn("JSON file did not contain an array of games.");
+    return;
+  }
+
   importedGames.forEach(data => {
     const game = new Game(data);
-    if (!Array.isArray(importedGames)) {
-      console.warn("JSON file did not contain an array of games.");
-      return;
-    }
     saveGame(game);
   });
 
@@ -51,6 +53,8 @@ function importGamesFromJSON(json) {
   displayGames();   
 }
 
+
+// Practic functions (steps)
 document.getElementById("importSource").addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
@@ -74,22 +78,40 @@ function displayGames() {
   const container = document.getElementById("gameList");
   container.innerHTML = "";
 
-  getAllGames().forEach(game => {
+  let sortedGames = [...getAllGames()];
+  const sortBy = document.getElementById("sortBy").value;
+
+  if (sortBy === "playCount") {
+    sortedGames.sort((a, b) => b.playCount - a.playCount);
+  } else if (sortBy === "personalRating") {
+    sortedGames.sort((a, b) => b.personalRating - a.personalRating);
+  } else if (sortBy === "difficulty") {
+    sortedGames.sort((a, b) => a.difficulty.localeCompare(b.difficulty));
+  } else if (sortBy === "players") {
+    sortedGames.sort((a, b) => {
+      const getMinPlayers = str => parseInt(str) || 0;
+      return getMinPlayers(a.players) - getMinPlayers(b.players);
+    });
+  }
+
+  sortedGames.forEach(game => {
     const gameDiv = document.createElement("div");
     gameDiv.className = "game";
 
     gameDiv.innerHTML = `
-      <h3>${game.title}</h3>
-      <p><strong>Designer:</strong> ${game.designer}</p>
-      <p><strong>Players:</strong> ${game.players}</p>
-      <p><strong>Play Count:</strong> <span id="plays-${game.title}">${game.playCount}</span></p>
-      <p><strong>Rating:</strong> <span id="rating-${game.title}">${game.personalRating}</span>/10</p>
+  <h3>${game.title}</h3>
+  <p><strong>Designer:</strong> ${game.designer}</p>
+  <p><strong>Players:</strong> ${game.players}</p>
+  <p><strong>Play Count:</strong> <span id="plays-${game.title}">${game.playCount}</span></p>
+  <p><strong>Rating:</strong> <span id="rating-${game.title}">${game.personalRating}</span>/10</p>
 
-      <input type="range" min="0" max="10" value="${game.personalRating}" 
-        data-title="${game.title}" class="rating-slider" />
+  <input type="range" min="0" max="10" value="${game.personalRating}" 
+    data-title="${game.title}" class="rating-slider" />
 
-      <button data-title="${game.title}" class="play-button">+1 Play</button>
-    `;
+  <button data-title="${game.title}" class="play-button">+1 Play</button>
+  <button data-title="${game.title}" class="delete-button">Delete</button>
+`;
+
 
     container.appendChild(gameDiv);
   });
@@ -100,6 +122,7 @@ function displayGames() {
 //Interactivity (slider and button)
 
 function setupInteractivity() {
+  // Rating slider
   document.querySelectorAll('.rating-slider').forEach(slider => {
     slider.addEventListener('input', (event) => {
       const title = event.target.dataset.title;
@@ -113,6 +136,7 @@ function setupInteractivity() {
     });
   });
 
+  // Play Count button
   document.querySelectorAll('.play-button').forEach(button => {
     button.addEventListener('click', (event) => {
       const title = event.target.dataset.title;
@@ -124,23 +148,34 @@ function setupInteractivity() {
       }
     });
   });
+
+  // Delete button
+  document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const title = event.target.dataset.title;
+      const key = `game_${title}`;
+      localStorage.removeItem(key);
+      loadGames(); 
+      displayGames();       
+    });
+  });
 }
 
 document.getElementById("newGameForm").addEventListener("submit", (event) => {
   event.preventDefault();
   
   const game = new Game({
-    title: val("title"),
-    designer: val("designer"),
-    artist: val("artist"),
-    publisher: val("publisher"),
-    year: parseInt(val("year")) || null,
-    players: val("players"),
-    time: val("time"),
-    difficulty: val("difficulty"),
-    url: val("url"),
-    playCount: parseInt(val("playCount")) || 0,
-    personalRating: parseInt(val("personalRating")) || 0,
+    title: get("title"),
+    designer: get("designer"),
+    artist: get("artist"),
+    publisher: get("publisher"),
+    year: parseInt(get("year")) || null,
+    players: get("players"),
+    time: get("time"),
+    difficulty: get("difficulty"),
+    url: get("url"),
+    playCount: parseInt(get("playCount")),
+    personalRating: parseInt(get("personalRating"))
   });
 
   saveGame(game);
@@ -148,10 +183,13 @@ document.getElementById("newGameForm").addEventListener("submit", (event) => {
   displayGames();
 
   event.target.reset();
-
 });
 
 window.addEventListener("DOMContentLoaded", () => {
   loadGames();
+  displayGames();
+});
+
+document.getElementById("sortBy").addEventListener("change", () => {
   displayGames();
 });

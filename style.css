@@ -1,13 +1,113 @@
-#gameList {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
 
 .game {
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 12px;
   background-color: #f9f9f9;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #1e1b2e;
+  color: #f1eaff;
+  margin: 0;
+  padding: 2rem;
+}
+
+/* Headings */
+h1, h2 {
+  color: #c084fc;
+}
+
+/* Form styles */
+form#newGameForm, #sortBy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 500px;
+  margin: 2rem 0;
+  background-color: #2a213b;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+}
+
+form#newGameForm input,
+form#newGameForm button,
+#sortBy {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+}
+
+form#newGameForm input {
+  background-color: #3b2d56;
+  color: #f1eaff;
+}
+
+form#newGameForm button {
+  background-color: #c084fc;
+  color: #1e1b2e;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form#newGameForm button:hover {
+  background-color: #a855f7;
+}
+
+#gameList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.game {
+  background-color: #2a213b;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.2);
+}
+
+/* Buttons */
+button.play-button,
+button.delete-button {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button.play-button {
+  background-color: #7c3aed;
+  color: white;
+}
+button.delete-button {
+  background-color: #991b1b;
+  color: white;
+}
+button.play-button:hover {
+  background-color: #6d28d9;
+}
+button.delete-button:hover {
+  background-color: #7f1d1d;
+}
+
+/* Rating slider */
+input[type="range"] {
+  width: 100%;
+}
+
+/* Initials */
+footer {
+  margin-top: 4rem;
+  text-align: center;
+  color: #a78bfa;
+  font-weight: bold;
+  font-size: 0.9rem;
 }

@@ -1,33 +1,53 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Game Record</title>
-        <link rel="stylesheet" href="style.css" />
-      </head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Game Record List</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <style>
+    body {
+      background-color: #400d70;
+    }
+  
+  </style>
+  
       <body>
-        <h1>Game Record</h1>  
+        <h1>Boardgames Record List</h1>  
         <p>Import a JSON file of games:</p>
         <input type="file" id="importSource" accept=".json">
         <h2>My Game List</h2>
 <div id="gameList"></div>
 
-<h2>Add a New Game</h2>
+<h2>Sort My Games</h2>
+<select id="sortBy">
+  <option value="">-- Choose a sort option --</option>
+  <option value="playCount">Times Played</option>
+  <option value="personalRating">Rating</option>
+  <option value="difficulty">Difficulty</option>
+  <option value="players">Players</option>
+</select>
+
+<h2>New Game for My Personal Collection</h2>
 <form id = "newGameForm">
-  <input type = "text" id = "title" placeholder = "Title" required>
+  <input type = "text" id = "title" placeholder = "Game Title" required>
   <input type = "text" id="designer" placeholder="Designer" />
-  <input type = "text" id="artist" placeholder="Artist" />
-  <input type = "text" id="publisher" placeholder="Publisher" />
+  <input type = "text" id="artist" placeholder="Media Artist" />
+  <input type = "text" id="publisher" placeholder="Game Publisher" />
   <input type = "text" id="year" placeholder="Year" />
-  <input type = "text" id="players" placeholder="Players (e.g., 2–5)" />
-  <input type = "text" id="time" placeholder="Play Time (e.g., 30–60 mins)" />
+  <input type = "text" id="players" placeholder="Players (solo/2-5 players)" />
+  <input type = "text" id="time" placeholder="Play Time (20 mins or 1h)" />
   <input type = "text" id="difficulty" placeholder="Difficulty" />
-  <input type = "text" id="url" placeholder="BoardGameGeek URL" />
+  <input type = "text" id="url" placeholder="Game URL" />
   <input type = "text" id="playCount" placeholder="Play Count" value="0" />
-  <input type = "text" id="personalRating" placeholder="Personal Rating (0–10)" value="0" min="0" max="10" />
+  <input type = "text" id="personalRating" placeholder="Personal Rating (from 1 to 10)" value="0" min="0" max="10" />
   <button type="submit">Add Game</button>
 </form>
 
   <script type="module" src="app.mjs"></script>
+  <footer>
+    &copy; 2025 JK – GameRecord
+  </footer>
+  
 </body>
 </html>
